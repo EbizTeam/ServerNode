@@ -1,0 +1,29 @@
+{
+  "name": "servernode",
+  "version": "1.0.0",
+  "description": "hoc react",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EbizTeam/ServerNode.git"
+  },
+  "author": "TRANTUAN",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EbizTeam/ServerNode/issues"
+  },
+  "homepage": "https://github.com/EbizTeam/ServerNode#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.8",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.1",
+    "mongoose": "^5.0.15",
+    "morgan": "^1.9.0",
+    "multer": "^1.3.0",
+    "path": "^0.12.7"
+  }
+}
