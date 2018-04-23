@@ -1,35 +1,48 @@
 const express = require('express');
+const app = express();
 const bodyParser  = require('body-parser');
 const morgan      = require('morgan');
 const mongoose    = require('mongoose');
+const path = require('path');
+const fs = require('fs');
+const root = __dirname;
+const routes = require('router');
+const  http = require('http');
+const config = require('./config');
 
 
-const port = process.env.PORT || 3000;
-//init app
-const app = express();
+//app.config
+    app.set('port', process.env.PORT || 3000);
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'ejs');
+    app.use('/components', express.static(__dirname + '/components'));
+    app.use('/js', express.static(__dirname + '/js'));
+    app.use('/icons', express.static(__dirname + '/icons'));
+    app.set('superSecret', config.secret); // secret variable
+    app.use(express.static(path.join(__dirname, 'public')));
+    // use body parser so we can get info from POST and/or URL parameters
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
+    app.use(morgan('dev'));
+//end config
 
-//ejs
-app.set('view engine','ejs');
-
-
-
-//public
-app.use(express.static('./public'));
-
-
-// use body parser so we can get info from POST and/or URL parameters
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-// use morgan to log requests to the console
-app.use(morgan('dev'));
-
-
-var config = require('./config');
 mongoose.connect(config.database); // connect to database
-app.set('superSecret', config.secret); // secret variable
+// use morgan to log requests to the console
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+
+var server = http.createServer(app).listen(app.get('port'), function(){
+    console.log("Express server listening on port " +
+        app.get('port'));
+});
+
+require('./routes/sockets').initialize(server);
+
+
+
+
+
+
+
 
 
 //dang ky nguoi dung moi
